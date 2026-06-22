@@ -25,6 +25,8 @@
 /** Site-wide constants. Edit here, not inline elsewhere. */
 const SITE_CONFIG = {
   whatsappNumber: '923093093535',
+  freeDeliveryThreshold: 2000,
+  deliveryFee: 150,
 };
 
 /**
@@ -36,6 +38,20 @@ const SITE_CONFIG = {
 function buildWhatsAppLink(product, size) {
   const text = `Hi, I'd like to order ${product}${size ? ` (${size})` : ''}.`;
   return `https://wa.me/${SITE_CONFIG.whatsappNumber}?text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * Builds a link to checkout.html with a product pre-loaded into the
+ * order summary, so "Buy Now" on a product card lands the shopper
+ * straight into checkout with that item already in the cart.
+ * @param {string} pid - Product id matching checkout's data-pid (honey/coconut/mustard).
+ * @param {string} size - Selected size/variant, e.g. "500g".
+ * @param {number} [qty] - Quantity to pre-fill (default 1).
+ * @returns {string} Relative URL to checkout.html with query params.
+ */
+function buildCheckoutLink(pid, size, qty = 1) {
+  const params = new URLSearchParams({ product: pid, size, qty: String(qty) });
+  return `checkout.html?${params.toString()}`;
 }
 
 /**
@@ -99,7 +115,7 @@ function initMobileNav() {
  */
 function initProductCards() {
   document.querySelectorAll('.product-card').forEach((card) => {
-    const product = card.getAttribute('data-product');
+    const pid = card.getAttribute('data-pid');
     const priceEl = card.querySelector('.price-value');
     const buyBtn = card.querySelector('.buy-now-btn');
     const pills = card.querySelectorAll('.size-pill');
@@ -113,7 +129,10 @@ function initProductCards() {
       const price = pill.getAttribute('data-price');
 
       priceEl.textContent = `Rs. ${price}`;
-      buyBtn.setAttribute('href', buildWhatsAppLink(product, size));
+      // "Buy Now" sends the shopper into checkout.html with this
+      // exact size pre-loaded into the order summary, rather than
+      // straight to WhatsApp — see buildCheckoutLink() above.
+      buyBtn.setAttribute('href', pid ? buildCheckoutLink(pid, size) : '#');
     };
 
     pills.forEach((pill) => {
@@ -177,4 +196,7 @@ if (document.readyState === 'loading') {
 
 // Exported in case a future page (or an SSG build script) wants to
 // reuse the WhatsApp link builder without re-implementing it.
-export { buildWhatsAppLink };
+// checkout.js imports SITE_CONFIG + buildCheckoutLink so the
+// WhatsApp number / delivery threshold stay defined in this one
+// place site-wide.
+export { SITE_CONFIG, buildWhatsAppLink, buildCheckoutLink };

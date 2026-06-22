@@ -8,7 +8,7 @@
   nav + footer, so each new page "just works" once it exists.
 
     index.html                              <- this file (Homepage)
-    checkout.html                           <- cart + map + WhatsApp handoff
+    checkout.html                           <- DONE — cart + map + WhatsApp handoff
     our-story.html                          <- philosophy + quality standards
     blog.html                               <- Purity Blog index (EN)
     blog-how-to-tell-if-honey-is-real.html  <- article (EN)
@@ -45,10 +45,13 @@
       Urdu snippet inside an otherwise-English page, wrap it in
       class="urdu-content" instead.
 
-  Buy Now currently jumps straight to WhatsApp. The proposal's
-  checkout.html (with the map pin) would sit BEFORE that WhatsApp
-  step — worth deciding now whether Buy Now should route there
-  once it exists, or stay as a direct WhatsApp shortcut.
+  Buy Now / "Order on WhatsApp" CTAs now route to checkout.html
+  (cart + delivery map + review) instead of jumping straight to
+  WhatsApp. WhatsApp is still the final step — checkout.html opens
+  a pre-filled wa.me message once the shopper confirms. The header's
+  small "Order on WhatsApp" pill (top-right, every page) is left as
+  a direct WhatsApp shortcut on purpose, for quick questions that
+  aren't a full order.
   ============================================================
 -->
 <html lang="en" dir="ltr">
@@ -276,7 +279,7 @@
     </nav>
 
     <div class="header-actions">
-      <a href="index.html#products" class="icon-btn" aria-label="View products">
+      <a href="checkout.html" class="icon-btn" aria-label="View cart and checkout">
         <svg class="icon" aria-hidden="true"><use href="#icon-cart"></use></svg>
       </a>
       <a href="https://wa.me/923093093535?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20your%20products." class="btn btn--whatsapp" target="_blank" rel="noopener">
@@ -381,7 +384,7 @@
       <div class="product-grid">
 
         <!-- Product 1 — Honey -->
-        <article class="product-card reveal" data-product="Raw Wildflower Honey">
+        <article class="product-card reveal" data-product="Raw Wildflower Honey" data-pid="honey">
           <div class="product-media product-media--honey">
             <span class="product-badge is-honey">Best Seller</span>
             <div class="icon-figure"><svg class="icon"><use href="#icon-honey-jar"></use></svg></div>
@@ -399,7 +402,7 @@
                 <span class="label">Price</span>
                 <span class="amount"><span class="price-value">Rs. 850</span></span>
               </div>
-              <a href="#" class="btn btn--primary btn--sm buy-now-btn" target="_blank" rel="noopener">
+              <a href="#" class="btn btn--primary btn--sm buy-now-btn">
                 Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
               </a>
             </div>
@@ -407,7 +410,7 @@
         </article>
 
         <!-- Product 2 — Coconut Oil -->
-        <article class="product-card reveal" data-product="Pure Coconut Oil">
+        <article class="product-card reveal" data-product="Pure Coconut Oil" data-pid="coconut">
           <div class="product-media product-media--coconut">
             <span class="product-badge">Cold-Pressed</span>
             <div class="icon-figure"><svg class="icon"><use href="#icon-coconut-oil"></use></svg></div>
@@ -425,7 +428,7 @@
                 <span class="label">Price</span>
                 <span class="amount"><span class="price-value">Rs. 1,200</span></span>
               </div>
-              <a href="#" class="btn btn--primary btn--sm buy-now-btn" target="_blank" rel="noopener">
+              <a href="#" class="btn btn--primary btn--sm buy-now-btn">
                 Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
               </a>
             </div>
@@ -433,7 +436,7 @@
         </article>
 
         <!-- Product 3 — Mustard Oil -->
-        <article class="product-card reveal" data-product="Pure Mustard Oil">
+        <article class="product-card reveal" data-product="Pure Mustard Oil" data-pid="mustard">
           <div class="product-media product-media--mustard">
             <span class="product-badge is-mustard">Farm Fresh</span>
             <div class="icon-figure"><svg class="icon"><use href="#icon-mustard-oil"></use></svg></div>
@@ -450,7 +453,7 @@
                 <span class="label">Price</span>
                 <span class="amount"><span class="price-value">Rs. 950</span></span>
               </div>
-              <a href="#" class="btn btn--primary btn--sm buy-now-btn" target="_blank" rel="noopener">
+              <a href="#" class="btn btn--primary btn--sm buy-now-btn">
                 Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
               </a>
             </div>
@@ -548,7 +551,7 @@
       <p>Bring nature's finest home — pure, unfiltered, and made the way it should be.</p>
       <div class="cta-band-actions">
         <a href="index.html#products" class="btn btn--outline">Browse All Products</a>
-        <a href="https://wa.me/923093093535?text=Hi%2C%20I%27d%20like%20to%20place%20an%20order." class="btn btn--primary" target="_blank" rel="noopener">
+        <a href="checkout.html" class="btn btn--primary">
           <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
           Order on WhatsApp
         </a>
