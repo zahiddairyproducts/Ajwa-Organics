@@ -1,93 +1,29 @@
 <!DOCTYPE html>
-<!--
-  ============================================================
-  AJWA ORGANICS — SITE MAP / BUILD PLAN
-  ============================================================
-  Planned pages (per Veloce Digital proposal v2). Build one at a
-  time; filenames below are already wired into this homepage's
-  nav + footer, so each new page "just works" once it exists.
-
-    index.html                              <- this file (Homepage)
-    checkout.html                           <- DONE — cart + map + WhatsApp handoff
-    products.html                           <- DONE — full catalog (all products)
-    our-story.html                          <- philosophy + quality standards
-    blog.html                               <- Purity Blog index (EN)
-    blog-how-to-tell-if-honey-is-real.html  <- article (EN)
-    blog-cold-pressed-vs-refined-oil.html   <- article (EN)
-    blog-ur/...                             <- Urdu mirror of the blog, once
-                                                it exists: same templates,
-                                                <html lang="ur" dir="rtl">,
-                                                see style.css section 14
-    privacy-policy.html
-    terms-conditions.html
-    shipping-delivery.html
-    returns-refunds.html
-    contact.html                            <- optional, only if a real
-                                                contact FORM is wanted beyond
-                                                the footer info (not in scope yet)
-
-  NOT in the original proposal (currently a dead "#" link in the
-  footer, left for you to decide): FAQs.
-
-  HOW TO BUILD EACH NEW PAGE (keeps the whole site consistent):
-   1. Duplicate this file, rename it to the filename above.
-   2. Keep <head>'s <link> tags, the announcement bar, <header>,
-      and <footer> 100% identical to this file — don't restyle
-      per page. style.css and script.js are shared site-wide.
-   3. Replace only the content inside <main>...</main>.
-   4. On the new page's own <header>, mark the matching nav <li>
-      as the active one for clarity (optional: add class="is-active").
-   5. Link back to this page using "index.html#section", not
-      "#section" — bare anchors only work on the page that
-      defines that id.
-   6. Publishing a page in Urdu? Set <html lang="ur" dir="rtl">
-      instead of editing component CSS — style.css section 14
-      already mirrors the shared components for RTL. For a short
-      Urdu snippet inside an otherwise-English page, wrap it in
-      class="urdu-content" instead.
-
-  Buy Now / "Order on WhatsApp" CTAs now route to checkout.html
-  (cart + delivery map + review) instead of jumping straight to
-  WhatsApp. WhatsApp is still the final step — checkout.html opens
-  a pre-filled wa.me message once the shopper confirms. The header's
-  small "Order on WhatsApp" pill (top-right, every page) is left as
-  a direct WhatsApp shortcut on purpose, for quick questions that
-  aren't a full order.
-  ============================================================
--->
+<!-- AJWA ORGANICS — Privacy Policy page. Header/footer/nav are kept identical to index.html on purpose — see the build notes there. -->
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore</title>
-  <meta name="description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore. No additives, no shortcuts.">
+  <title>Privacy Policy — Ajwa Organics</title>
+  <meta name="description" content="How Ajwa Organics collects, uses, and protects your personal information, plus our order cancellation policy.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#54693F">
-  <link rel="canonical" href="https://ajwaorganics.pk/">
+  <link rel="canonical" href="https://ajwaorganics.pk/privacy-policy.html">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ajwaorganics.pk/">
+  <meta property="og:url" content="https://ajwaorganics.pk/privacy-policy.html">
   <meta property="og:site_name" content="Ajwa Organics">
   <meta property="og:locale" content="en_PK">
-  <meta property="og:title" content="Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore">
-  <meta property="og:description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore. No additives, no shortcuts.">
+  <meta property="og:title" content="Privacy Policy — Ajwa Organics">
+  <meta property="og:description" content="How Ajwa Organics collects, uses, and protects your personal information, plus our order cancellation policy.">
   <meta property="og:image" content="https://ajwaorganics.pk/assets/og-image.jpg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore">
-  <meta name="twitter:description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore.">
+  <meta name="twitter:title" content="Privacy Policy — Ajwa Organics">
+  <meta name="twitter:description" content="How Ajwa Organics collects, uses, and protects your personal information, plus our order cancellation policy.">
   <meta name="twitter:image" content="https://ajwaorganics.pk/assets/og-image.jpg">
-
-  <!--
-    Bilingual prep: once blog.html / blog-ur/ both exist, list both
-    language versions of each page here so search engines connect
-    them, e.g. on a given article:
-      <link rel="alternate" hreflang="en" href="https://ajwaorganics.pk/blog-how-to-tell-if-honey-is-real.html">
-      <link rel="alternate" hreflang="ur" href="https://ajwaorganics.pk/blog-ur/how-to-tell-if-honey-is-real.html">
-      <link rel="alternate" hreflang="x-default" href="https://ajwaorganics.pk/blog-how-to-tell-if-honey-is-real.html">
-  -->
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2354693F' d='M12 2C8 3 4 6 3.2 11c-.8 5 2.3 9.6 7 10.8C9 17 9.6 11.4 13 7.4c2-2.3 5-3.6 7.8-3.6C19 1.8 15.4 1.2 12 2Z'/%3E%3C/svg%3E">
 
@@ -275,7 +211,7 @@
         <li><a href="products.html">Products</a></li>
         <li><a href="index.html#promise">Our Promise</a></li>
         <li><a href="index.html#blog">Blog</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li class="is-active"><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -314,231 +250,153 @@
 <main id="main">
 
   <!-- ============================================================
-       HERO
+       PAGE BANNER
   ============================================================ -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Lahore's Own Organic Store
-        </p>
-        <h1 class="hero-title">
-          <span class="weight">Pure Honey,</span>
-          <span class="accent">Cold&#8209;Pressed Oils,</span>
-          <span class="weight">Delivered Fresh.</span>
-        </h1>
-        <p class="hero-sub">Raw wildflower honey and traditionally extracted coconut and mustard oil, made in small batches and delivered fresh across Lahore — no additives, no shortcuts.</p>
-        <div class="hero-ctas">
-          <a href="index.html#products" class="btn btn--primary">
-            Shop All Products
-            <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-          </a>
-          <a href="index.html#promise" class="btn btn--outline">Our Promise</a>
-        </div>
-        <div class="trust-points">
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-check-shield"></use></svg>No Additives</span>
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-press"></use></svg>Cold-Pressed</span>
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-truck"></use></svg>Lahore Home Delivery</span>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal" aria-hidden="true">
-        <div class="visual-card visual-card--honey">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-honey-jar"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Best Seller</p>
-            <p class="visual-card-label">Raw Wildflower Honey</p>
-          </div>
-        </div>
-        <div class="visual-card visual-card--coconut">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-coconut-oil"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Cold-Pressed</p>
-            <p class="visual-card-label">Pure Coconut Oil</p>
-          </div>
-        </div>
-        <div class="visual-card visual-card--mustard">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-mustard-oil"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Farm Fresh</p>
-            <p class="visual-card-label">Pure Mustard Oil</p>
-          </div>
-        </div>
-      </div>
+  <section class="page-banner">
+    <div class="container reveal">
+      <p class="eyebrow">
+        <svg class="icon" aria-hidden="true"><use href="#icon-check-shield"></use></svg>
+        Customer Care
+      </p>
+      <h1>Privacy Policy</h1>
+      <p>How we collect, use, and protect your information when you visit or order from us — plus our order cancellation policy.</p>
+      <p class="page-banner-crumb">
+        <a href="index.html">Home</a><span>/</span>Privacy Policy
+      </p>
     </div>
   </section>
 
   <!-- ============================================================
-       PRODUCTS
+       POLICY CONTENT
   ============================================================ -->
-  <section class="products section" id="products">
+  <section class="policy-section section--tight">
     <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Featured &amp; On Sale
-        </p>
-        <h2>Straight From Nature, Straight To You.</h2>
-        <p>A few favourites and current offers — see the full range on our products page.</p>
-      </div>
+      <div class="policy-layout">
 
-      <div class="product-grid">
+        <nav class="policy-toc" aria-label="Sections on this page">
+          <h2>On This Page</h2>
+          <ol>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#info-we-collect">Information We Collect</a></li>
+            <li><a href="#how-we-use">How We Use Your Information</a></li>
+            <li><a href="#how-we-protect">How We Protect Your Information</a></li>
+            <li><a href="#sharing">Sharing Your Information</a></li>
+            <li><a href="#cookies">Cookies</a></li>
+            <li><a href="#third-party">Third-Party Links</a></li>
+            <li><a href="#your-rights">Your Rights</a></li>
+            <li><a href="#cancellation">Cancellation Policy</a></li>
+          </ol>
+        </nav>
 
-        <!-- Product 1 — Honey -->
-        <article class="product-card reveal" data-product="Raw Wildflower Honey" data-pid="honey" data-category="honey" data-featured="true">
-          <div class="product-media product-media--honey">
-            <span class="product-badge is-sale">Sale</span>
-            <div class="icon-figure"><svg class="icon"><use href="#icon-honey-jar"></use></svg></div>
+        <div class="policy-body">
+          <span class="policy-updated">
+            <svg class="icon" aria-hidden="true" style="width:14px;height:14px"><use href="#icon-check-shield"></use></svg>
+            Your data is never sold or traded
+          </span>
+
+          <div class="policy-block" id="intro">
+            <h2>Introduction</h2>
+            <p>Welcome to www.ajwaorganics.pk ("we", "our", "us"). We value your privacy and are committed to protecting your personal data. This privacy policy outlines how we collect, use, and protect your information when you visit our website or make a purchase from our online store.</p>
           </div>
-          <div class="product-body">
-            <h3>Raw Wildflower Honey</h3>
-            <p>Unfiltered, unheated honey gathered from wildflower meadows across Punjab — pure and naturally raw.</p>
-            <div class="size-pills" role="group" aria-label="Select a size">
-              <button type="button" class="size-pill" aria-pressed="true" data-size="250g" data-price="850" data-original="950">250g</button>
-              <button type="button" class="size-pill" aria-pressed="false" data-size="500g" data-price="1,600" data-original="1,800">500g</button>
-              <button type="button" class="size-pill" aria-pressed="false" data-size="1kg" data-price="3,000" data-original="3,400">1kg</button>
-            </div>
-            <div class="product-footer">
-              <div class="product-price">
-                <span class="label">Price</span>
-                <span class="amount">
-                  <span class="price-original" hidden></span>
-                  <span class="price-value">Rs. 850</span>
-                </span>
-              </div>
-              <div class="product-actions">
-                <a href="checkout.html" class="btn btn--primary btn--sm buy-now-btn">
-                  Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-                </a>
-                <button type="button" class="btn-icon add-to-cart-btn" aria-label="Add Raw Wildflower Honey to cart">
-                  <svg class="icon icon-cart-default" aria-hidden="true"><use href="#icon-cart"></use></svg>
-                  <svg class="icon icon-cart-added" aria-hidden="true"><use href="#icon-check-shield"></use></svg>
-                </button>
-              </div>
-            </div>
+
+          <div class="policy-block" id="info-we-collect">
+            <h2>Information We Collect</h2>
+            <h3>Personal Information</h3>
+            <p>We may collect the following personal information when you use our services:</p>
+            <ul>
+              <li>Name</li>
+              <li>Email address</li>
+              <li>Phone number</li>
+              <li>Shipping and billing address</li>
+              <li>Payment information</li>
+              <li>Any other information you provide during the registration or purchase process</li>
+            </ul>
+            <h3>Non-Personal Information</h3>
+            <p>We also collect non-personal information, including:</p>
+            <ul>
+              <li>Browser type and version</li>
+              <li>Operating system</li>
+              <li>IP address</li>
+              <li>Referral source</li>
+              <li>Pages visited</li>
+              <li>Time and date of visit</li>
+              <li>Time spent on each page</li>
+            </ul>
           </div>
-        </article>
 
-        <!-- Product 2 — Coconut Oil -->
-        <article class="product-card reveal" data-product="Pure Coconut Oil" data-pid="coconut" data-category="oil" data-featured="true">
-          <div class="product-media product-media--coconut">
-            <span class="product-badge">Featured</span>
-            <div class="icon-figure"><svg class="icon"><use href="#icon-coconut-oil"></use></svg></div>
+          <div class="policy-block" id="how-we-use">
+            <h2>How We Use Your Information</h2>
+            <p>We use the information we collect for the following purposes:</p>
+            <ul>
+              <li>To process and fulfill your orders</li>
+              <li>To communicate with you regarding your orders, inquiries, and other requests</li>
+              <li>To improve our website and services</li>
+              <li>To send you promotional emails and updates (you can opt-out at any time)</li>
+              <li>To prevent fraud and enhance the security of our website</li>
+              <li>To comply with legal obligations</li>
+            </ul>
           </div>
-          <div class="product-body">
-            <h3>Pure Coconut Oil</h3>
-            <p>Extracted from fresh coconut using a slow cold-press method that locks in natural aroma and nutrients.</p>
-            <div class="size-pills" role="group" aria-label="Select a size">
-              <button type="button" class="size-pill" aria-pressed="false" data-size="250ml" data-price="650">250ml</button>
-              <button type="button" class="size-pill" aria-pressed="true" data-size="500ml" data-price="1,200">500ml</button>
-              <button type="button" class="size-pill" aria-pressed="false" data-size="1L" data-price="2,200">1L</button>
-            </div>
-            <div class="product-footer">
-              <div class="product-price">
-                <span class="label">Price</span>
-                <span class="amount">
-                  <span class="price-original" hidden></span>
-                  <span class="price-value">Rs. 1,200</span>
-                </span>
-              </div>
-              <div class="product-actions">
-                <a href="checkout.html" class="btn btn--primary btn--sm buy-now-btn">
-                  Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-                </a>
-                <button type="button" class="btn-icon add-to-cart-btn" aria-label="Add Pure Coconut Oil to cart">
-                  <svg class="icon icon-cart-default" aria-hidden="true"><use href="#icon-cart"></use></svg>
-                  <svg class="icon icon-cart-added" aria-hidden="true"><use href="#icon-check-shield"></use></svg>
-                </button>
-              </div>
-            </div>
+
+          <div class="policy-block" id="how-we-protect">
+            <h2>How We Protect Your Information</h2>
+            <p>We implement various security measures to ensure the safety of your personal information:</p>
+            <ul>
+              <li>Secure Sockets Layer (SSL) technology to encrypt data during transmission</li>
+              <li>Regular security assessments of our systems and practices</li>
+              <li>Restricted access to personal information to authorized personnel only</li>
+              <li>Secure storage and disposal of personal information</li>
+            </ul>
           </div>
-        </article>
 
-      </div>
+          <div class="policy-block" id="sharing">
+            <h2>Sharing Your Information</h2>
+            <p>We do not sell, trade, or otherwise transfer your personal information to outside parties except in the following circumstances:</p>
+            <ul>
+              <li>To trusted third parties who assist us in operating our website, conducting our business, or providing services to you, provided that they agree to keep this information confidential</li>
+              <li>To comply with legal requirements, such as responding to subpoenas or court orders</li>
+              <li>To protect our rights, property, or safety, or that of our users or others</li>
+            </ul>
+          </div>
 
-      <div class="products-more reveal">
-        <a href="products.html" class="btn btn--outline">
-          See All Products <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-        </a>
-      </div>
-    </div>
-  </section>
+          <div class="policy-block" id="cookies">
+            <h2>Cookies</h2>
+            <p>Our website uses cookies to enhance your browsing experience. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your web browser that enables the site's or service provider's systems to recognize your browser and capture and remember certain information.</p>
+            <p>You can choose to disable cookies through your browser settings. However, disabling cookies may affect your ability to use certain features of our website.</p>
+          </div>
 
-  <!-- ============================================================
-       WHY AJWA ORGANICS
-  ============================================================ -->
-  <section class="promise section" id="promise">
-    <div class="container">
-      <div class="promise-intro reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Our Promise
-        </p>
-        <h2>Why Ajwa Organics?</h2>
-        <p>We believe in honest food, made the traditional way and delivered with care — no shortcuts, no compromises, just real goodness from the source.</p>
-        <a href="our-story.html" class="btn btn--outline-light">
-          Read Our Story
-          <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-        </a>
-      </div>
+          <div class="policy-block" id="third-party">
+            <h2>Third-Party Links</h2>
+            <p>Our website may contain links to third-party websites. We are not responsible for the privacy practices or the content of these websites. We encourage you to review the privacy policies of these third-party sites.</p>
+          </div>
 
-      <div class="feature-grid reveal">
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-honeycomb"></use></svg>
-          <h3>Pure &amp; Unfiltered</h3>
-          <p>No additives, no shortcuts — just what nature intended.</p>
+          <div class="policy-block" id="your-rights">
+            <h2>Your Rights</h2>
+            <p>You have the right to:</p>
+            <ul>
+              <li>Access the personal information we hold about you</li>
+              <li>Request corrections to any inaccurate or incomplete information</li>
+              <li>Request the deletion of your personal information</li>
+              <li>Opt-out of receiving marketing communications</li>
+            </ul>
+            <p>To exercise any of these rights, please contact us at <a href="mailto:support@ajwaorganics.pk">support@ajwaorganics.pk</a>.</p>
+          </div>
+
+          <div class="policy-block" id="cancellation">
+            <h2>Cancellation Policy</h2>
+            <p>If you need to cancel an order placed for any item, you must inform us at the earliest, as we dispatch most orders within 24 hours.</p>
+            <p>Cancellation of your order depends on whether it has been shipped or not. Usually, items are shipped on the same business day, so it is important that you notify us immediately. To cancel an order, kindly call us on +92 309 309 3535 for a cancellation request. Please note that if your order has been shipped, we will not be able to cancel it. For your queries, email us at support@ajwaorganics.pk.</p>
+          </div>
+
+          <div class="policy-contact-card">
+            <h3>Contact Us</h3>
+            <ul>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg><a href="mailto:support@ajwaorganics.pk">support@ajwaorganics.pk</a></li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-phone"></use></svg><a href="tel:+923093093535">+92 309 309 3535</a></li>
+              <li><svg class="icon" aria-hidden="true"><use href="#icon-pin"></use></svg><span>Canal Bank Road, Muslim Abad, Mughal Pura, Lahore</span></li>
+            </ul>
+          </div>
         </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-press"></use></svg>
-          <h3>Cold-Pressed Method</h3>
-          <p>Traditional extraction that protects every nutrient and flavour.</p>
-        </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-truck"></use></svg>
-          <h3>Fresh, Local Delivery</h3>
-          <p>Bottled in small batches and delivered fresh across Lahore.</p>
-        </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-chat"></use></svg>
-          <h3>WhatsApp Ordering</h3>
-          <p>Simple, personal ordering — message us and we'll take it from there.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ============================================================
-       BLOG / PURITY GUIDE
-  ============================================================ -->
-  <section class="blog section" id="blog">
-    <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Purity Guide
-        </p>
-        <h2>Learn What You're Eating</h2>
-        <p>Real food knowledge from our latest guides.</p>
-      </div>
-
-      <div class="blog-grid">
-        <a href="blog-how-to-tell-if-honey-is-real.html" class="blog-card reveal">
-          <div class="blog-thumb tone-a"><svg class="icon" aria-hidden="true"><use href="#icon-droplet"></use></svg></div>
-          <div class="blog-content">
-            <h3>How To Tell If Your Honey Is Real</h3>
-            <p>Simple tests and honest truths about the honey you bring home.</p>
-            <span class="blog-link">Read Article <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
-          </div>
-        </a>
-        <a href="blog-cold-pressed-vs-refined-oil.html" class="blog-card reveal">
-          <div class="blog-thumb tone-b"><svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg></div>
-          <div class="blog-content">
-            <h3>Cold-Pressed vs. Refined Oil: What Pakistani Kitchens Should Know</h3>
-            <p>Understand the difference, and why it matters for your family's health.</p>
-            <span class="blog-link">Read Article <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
-          </div>
-        </a>
       </div>
     </div>
   </section>
