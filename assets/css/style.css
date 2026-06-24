@@ -330,9 +330,31 @@
     color: var(--c-olive);
     border-radius: var(--radius-pill);
     transition: background .2s var(--ease);
+    position: relative;
   }
   .icon-btn:hover { background: var(--c-cream-soft); }
   .icon-btn .icon { width: 21px; height: 21px; }
+
+  /* Live cart-item count, shown/hidden by cart.js's refreshCartBadges()
+     whenever the shared localStorage cart changes — same badge on
+     index.html, products.html, and checkout.html. */
+  .cart-badge {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: var(--radius-pill);
+    background: var(--c-sale, #B3434B);
+    color: var(--c-cream);
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    box-shadow: 0 0 0 2px var(--c-cream);
+  }
+  .cart-badge[hidden] { display: none; }
 
   .nav-toggle {
     display: inline-flex;
@@ -638,6 +660,40 @@
   .product-price { display: flex; flex-direction: column; }
   .product-price .label { font-size: 0.7rem; color: var(--c-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; }
   .product-price .amount { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-display); font-size: 1.32rem; font-weight: 600; color: var(--c-olive); }
+
+  /* Groups "Buy Now" + the icon-only "Add to Cart" button together
+     on the right of the footer, so .product-footer keeps its two-end
+     space-between layout regardless of how many action buttons it has. */
+  .product-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  /* Icon-only "Add to Cart" button — a secondary action next to the
+     primary "Buy Now" CTA. Adds the item to the shared cart (cart.js)
+     without navigating away from the page. */
+  .btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--c-line);
+    color: var(--c-olive);
+    background: transparent;
+    transition: border-color .2s var(--ease), background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease);
+  }
+  .btn-icon:hover { border-color: var(--c-forest); background: rgba(84,105,63,0.06); }
+  .btn-icon .icon { width: 18px; height: 18px; }
+  .btn-icon .icon-cart-added { display: none; }
+  /* Brief "added!" confirmation state, toggled for ~0.9s by script.js
+     after a successful add-to-cart click. */
+  .add-to-cart-btn.is-added {
+    border-color: var(--c-forest);
+    background: var(--c-forest);
+    color: var(--c-cream);
+  }
+  .add-to-cart-btn.is-added .icon-cart-default { display: none; }
+  .add-to-cart-btn.is-added .icon-cart-added { display: inline-flex; }
 
   /* On-sale pricing: original price shown struck through next to the
      active sale price. Toggled per size by script.js (reads
@@ -1030,6 +1086,8 @@
   @media (max-width: 360px) {
     .product-footer { flex-direction: column; align-items: stretch; }
     .product-footer .btn { width: 100%; justify-content: center; }
+    .product-actions { width: 100%; }
+    .product-actions .buy-now-btn { flex: 1; }
   }
 
 /* ============================================================
@@ -1105,3 +1163,31 @@
   border-radius: 0 0 0 8px;
 }
 [dir="rtl"] .skip-link:focus { left: auto; right: 0; }
+
+/* ============================================================
+   15. SHARED TOAST (cart.js — index.html / products.html)
+   ------------------------------------------------------------
+   checkout.html has its own #co-toast in checkout.css; this is
+   the equivalent for every other page, created on demand by
+   cart.js's showCartToast() so no markup change was needed here.
+   ============================================================ */
+.site-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%, 16px);
+  background: var(--c-olive-dark);
+  color: var(--c-cream-ink);
+  padding: 14px 22px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-soft);
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+  max-width: calc(100vw - 48px);
+  text-align: center;
+}
+.site-toast.is-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }

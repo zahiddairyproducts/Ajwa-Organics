@@ -182,6 +182,7 @@ body { background: var(--c-cream); }
   font-weight: 500;
   margin-bottom: 20px;
 }
+.co-empty-banner[hidden] { display: none; }
 .co-empty-banner .icon { width: 20px; height: 20px; flex-shrink: 0; }
 
 .co-toast {
@@ -611,6 +612,7 @@ body { background: var(--c-cream); }
    13. PRODUCT SELECTOR ROWS
 ============================================================ */
 .co-products { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+.co-products[hidden] { display: none; }
 
 .co-prod-row {
   display: grid;
@@ -634,7 +636,7 @@ body { background: var(--c-cream); }
 .co-prod-icon--mustard { background: linear-gradient(165deg, var(--c-forest), var(--c-olive) 140%); color: var(--c-honey-light); }
 
 .co-prod-info { min-width: 0; }
-.co-prod-name-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.co-prod-name-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
 .co-prod-name { font-weight: 600; font-size: 0.94rem; color: var(--c-ink); }
 .co-prod-badge {
   font-size: 0.62rem;
@@ -650,18 +652,10 @@ body { background: var(--c-cream); }
 .co-prod-badge--coconut { background: var(--c-moss-light); color: var(--c-olive); }
 .co-prod-badge--mustard { background: var(--c-olive); color: var(--c-honey-light); }
 
-.co-prod-variants { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
-.co-vpill {
-  font-size: 0.74rem;
-  font-weight: 600;
-  padding: 5px 11px;
-  border-radius: var(--radius-pill);
-  border: 1.5px solid var(--c-line);
-  color: var(--c-ink-soft);
-  transition: all .2s var(--ease);
-}
-.co-vpill:hover { border-color: var(--c-moss); }
-.co-vpill.is-active { background: var(--c-forest); border-color: var(--c-forest); color: var(--c-cream); }
+/* Size is fixed once a line is in the cart — to change it, remove
+   this line and add the product again in the chosen size from the
+   products page. Kept as plain text rather than editable pills. */
+.co-prod-size { font-size: 0.8rem; color: var(--c-ink-soft); margin-bottom: 12px; }
 
 .co-prod-ctrl { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 
@@ -694,7 +688,49 @@ body { background: var(--c-cream); }
   text-align: right;
 }
 
-.co-prod-row.is-empty .co-prod-total { color: var(--c-ink-soft); font-weight: 500; }
+/* Removes a cart line entirely, regardless of its quantity. */
+.co-prod-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  color: var(--c-ink-soft);
+  transition: background .2s var(--ease), color .2s var(--ease);
+}
+.co-prod-remove .icon { width: 14px; height: 14px; }
+.co-prod-remove:hover { background: var(--c-error-soft); color: var(--c-error); }
+
+/* Shown instead of .co-products when the cart has nothing in it —
+   replaces the old design where all products were always listed
+   with a quantity of 0 even if the shopper hadn't chosen them. */
+.co-cart-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 36px 16px;
+  color: var(--c-ink-soft);
+  margin-bottom: 20px;
+}
+.co-cart-empty[hidden] { display: none; }
+.co-cart-empty .icon { width: 32px; height: 32px; opacity: 0.5; }
+.co-cart-empty p { font-size: 0.92rem; }
+
+.co-add-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  margin-bottom: 20px;
+  transition: color .2s var(--ease);
+}
+.co-add-more:hover { color: var(--c-olive-dark); text-decoration: underline; }
+.co-add-more[hidden] { display: none; }
 
 /* ============================================================
    14. PRICING + FREE DELIVERY METER

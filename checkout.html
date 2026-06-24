@@ -200,6 +200,7 @@
     <div class="header-actions">
       <a href="index.html#products" class="icon-btn" aria-label="View products">
         <svg class="icon" aria-hidden="true"><use href="#icon-cart"></use></svg>
+        <span class="cart-badge" id="cart-badge" hidden>0</span>
       </a>
       <a href="https://wa.me/923093093535?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20your%20products." class="btn btn--whatsapp" target="_blank" rel="noopener">
         <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
@@ -526,85 +527,20 @@
           <span class="co-item-count" id="co-item-count">0 items</span>
         </div>
 
-        <!-- Product selector -->
-        <div class="co-products" id="co-products">
-          <!-- Product: Honey -->
-          <div class="co-prod-row" data-pid="honey">
-            <div class="co-prod-icon co-prod-icon--honey">
-              <svg class="icon" aria-hidden="true"><use href="#icon-honey-jar"></use></svg>
-            </div>
-            <div class="co-prod-info">
-              <div class="co-prod-name-row">
-                <span class="co-prod-name">Raw Wildflower Honey</span>
-                <span class="co-prod-badge co-prod-badge--honey">Best Seller</span>
-              </div>
-              <div class="co-prod-variants" role="group" aria-label="Honey size">
-                <button type="button" class="co-vpill is-active" data-size="250g" data-price="850">250g</button>
-                <button type="button" class="co-vpill" data-size="500g" data-price="1600">500g</button>
-                <button type="button" class="co-vpill" data-size="1kg" data-price="3000">1kg</button>
-              </div>
-            </div>
-            <div class="co-prod-ctrl">
-              <div class="co-qty" role="group" aria-label="Quantity">
-                <button type="button" class="co-qty-btn co-qty-dec" aria-label="Decrease quantity">−</button>
-                <span class="co-qty-val" aria-live="polite" aria-atomic="true">0</span>
-                <button type="button" class="co-qty-btn co-qty-inc" aria-label="Increase quantity">+</button>
-              </div>
-              <span class="co-prod-total">—</span>
-            </div>
-          </div>
+        <!-- Cart items — rendered dynamically by checkout.js from the
+             shared cart (assets/js/cart.js). Only products the shopper
+             actually added on index.html / products.html appear here;
+             nothing is pre-listed. -->
+        <div class="co-products" id="co-products"></div>
 
-          <!-- Product: Coconut Oil -->
-          <div class="co-prod-row" data-pid="coconut">
-            <div class="co-prod-icon co-prod-icon--coconut">
-              <svg class="icon" aria-hidden="true"><use href="#icon-coconut-oil"></use></svg>
-            </div>
-            <div class="co-prod-info">
-              <div class="co-prod-name-row">
-                <span class="co-prod-name">Pure Coconut Oil</span>
-                <span class="co-prod-badge co-prod-badge--coconut">Cold-Pressed</span>
-              </div>
-              <div class="co-prod-variants" role="group" aria-label="Coconut oil size">
-                <button type="button" class="co-vpill" data-size="250ml" data-price="650">250ml</button>
-                <button type="button" class="co-vpill is-active" data-size="500ml" data-price="1200">500ml</button>
-                <button type="button" class="co-vpill" data-size="1L" data-price="2200">1L</button>
-              </div>
-            </div>
-            <div class="co-prod-ctrl">
-              <div class="co-qty" role="group" aria-label="Quantity">
-                <button type="button" class="co-qty-btn co-qty-dec" aria-label="Decrease quantity">−</button>
-                <span class="co-qty-val" aria-live="polite" aria-atomic="true">0</span>
-                <button type="button" class="co-qty-btn co-qty-inc" aria-label="Increase quantity">+</button>
-              </div>
-              <span class="co-prod-total">—</span>
-            </div>
-          </div>
-
-          <!-- Product: Mustard Oil -->
-          <div class="co-prod-row" data-pid="mustard">
-            <div class="co-prod-icon co-prod-icon--mustard">
-              <svg class="icon" aria-hidden="true"><use href="#icon-mustard-oil"></use></svg>
-            </div>
-            <div class="co-prod-info">
-              <div class="co-prod-name-row">
-                <span class="co-prod-name">Pure Mustard Oil</span>
-                <span class="co-prod-badge co-prod-badge--mustard">Farm Fresh</span>
-              </div>
-              <div class="co-prod-variants" role="group" aria-label="Mustard oil size">
-                <button type="button" class="co-vpill is-active" data-size="500ml" data-price="950">500ml</button>
-                <button type="button" class="co-vpill" data-size="1L" data-price="1800">1L</button>
-              </div>
-            </div>
-            <div class="co-prod-ctrl">
-              <div class="co-qty" role="group" aria-label="Quantity">
-                <button type="button" class="co-qty-btn co-qty-dec" aria-label="Decrease quantity">−</button>
-                <span class="co-qty-val" aria-live="polite" aria-atomic="true">0</span>
-                <button type="button" class="co-qty-btn co-qty-inc" aria-label="Increase quantity">+</button>
-              </div>
-              <span class="co-prod-total">—</span>
-            </div>
-          </div>
+        <!-- Shown instead of co-products when the cart has nothing in it. -->
+        <div class="co-cart-empty" id="co-cart-empty" hidden>
+          <svg class="icon" aria-hidden="true"><use href="#icon-cart"></use></svg>
+          <p>Your cart is empty.</p>
+          <a href="products.html" class="btn btn--outline btn--sm">Browse Products</a>
         </div>
+
+        <a href="products.html" class="co-add-more" id="co-add-more">+ Add another product</a>
 
         <!-- Pricing breakdown -->
         <div class="co-pricing">

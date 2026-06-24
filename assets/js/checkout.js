@@ -12,15 +12,25 @@
    ================================================================ */
 
 import { SITE_CONFIG } from './script.js';
+import {
+  getCart,
+  addToCart,
+  setItemQty,
+  removeFromCart,
+  clearCart,
+  cartCount,
+  cartSubtotal as getCartSubtotal,
+  getProductMeta,
+} from './cart.js';
 
 /** Lahore city-centre — sensible default map pin before the
  *  shopper has placed one of their own. */
 const LAHORE_CENTER = { lat: 31.5204, lng: 74.3587 };
 
-/** Module-level state. Single source of truth for the cart and
- *  the confirmed delivery location, read by every render function. */
+/** Module-level state. Single source of truth for the confirmed
+ *  delivery location, read by every render function. The cart itself
+ *  lives in localStorage via assets/js/cart.js, not here. */
 const state = {
-  cart: new Map(), // pid -> { row, name, size, price, qty, totalEl, qtyEl, variants }
   location: null,  // { lat, lng, source: 'gps' | 'map' }
   step: 1,
 };
@@ -106,107 +116,103 @@ function shake(el) {
    CART (sidebar product selector)
 ============================================================ */
 
-const PRODUCT_META = {
-  honey:   { icon: 'is-honey' },
-  coconut: { icon: 'is-coconut' },
-  mustard: { icon: 'is-mustard' },
-};
-
-/** Reads every .co-prod-row in the sidebar into `state.cart`, then
- *  wires its variant pills and quantity stepper. Variant price/size
- *  data is read straight from the DOM (data-size / data-price),
- *  same DOM-as-data pattern used on the homepage's product cards. */
-function initCart() {
-  document.querySelectorAll('.co-prod-row').forEach((row) => {
-    const pid = row.getAttribute('data-pid');
-    const name = row.querySelector('.co-prod-name')?.textContent.trim() || pid;
-    const variants = row.querySelectorAll('.co-vpill');
-    const qtyEl = row.querySelector('.co-qty-val');
-    const totalEl = row.querySelector('.co-prod-total');
-    const decBtn = row.querySelector('.co-qty-dec');
-    const incBtn = row.querySelector('.co-qty-inc');
-    if (!variants.length || !qtyEl || !totalEl) return;
-
-    const activePill = row.querySelector('.co-vpill.is-active') || variants[0];
-
-    const entry = {
-      row,
-      name,
-      size: activePill.getAttribute('data-size'),
-      price: parseFloat(activePill.getAttribute('data-price')) || 0,
-      qty: 0,
-      qtyEl,
-      totalEl,
-      variants,
-    };
-    state.cart.set(pid, entry);
-
-    variants.forEach((pill) => {
-      pill.addEventListener('click', () => {
-        variants.forEach((p) => p.classList.remove('is-active'));
-        pill.classList.add('is-active');
-        entry.size = pill.getAttribute('data-size');
-        entry.price = parseFloat(pill.getAttribute('data-price')) || 0;
-        renderRow(entry);
-        updateSummary();
-      });
-    });
-
-    decBtn?.addEventListener('click', () => setQty(entry, entry.qty - 1));
-    incBtn?.addEventListener('click', () => setQty(entry, entry.qty + 1));
-
-    renderRow(entry);
-  });
+/** Builds the HTML for one cart line in the sidebar. Icon/badge/name
+ *  come from PRODUCT_CATALOG (cart.js); size/qty/price come from the
+ *  cart line itself. */
+function renderCartRow(item) {
+  const meta = getProductMeta(item.pid) || {};
+  const badgeClass = meta.badgeClass || '';
+  const total = item.price * item.qty;
+  return `
+    <div class="co-prod-row" data-id="${escapeHtml(item.id)}">
+      <div class="co-prod-icon co-prod-icon--${badgeClass}">
+        ${productIconSvg(meta.icon)}
+      </div>
+      <div class="co-prod-info">
+        <div class="co-prod-name-row">
+          <span class="co-prod-name">${escapeHtml(meta.name || item.pid)}</span>
+          ${meta.badge ? `<span class="co-prod-badge co-prod-badge--${badgeClass}">${escapeHtml(meta.badge)}</span>` : ''}
+        </div>
+        <div class="co-prod-size">${escapeHtml(item.size)}</div>
+      </div>
+      <div class="co-prod-ctrl">
+        <div class="co-qty" role="group" aria-label="Quantity">
+          <button type="button" class="co-qty-btn co-qty-dec" aria-label="Decrease quantity">−</button>
+          <span class="co-qty-val" aria-live="polite" aria-atomic="true">${item.qty}</span>
+          <button type="button" class="co-qty-btn co-qty-inc" aria-label="Increase quantity">+</button>
+        </div>
+        <span class="co-prod-total">${formatPKR(total)}</span>
+        <button type="button" class="co-prod-remove" aria-label="Remove ${escapeHtml(meta.name || item.pid)} (${escapeHtml(item.size)}) from cart" title="Remove">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <line x1="5" y1="5" x2="19" y2="19"></line><line x1="19" y1="5" x2="5" y2="19"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  `;
 }
 
-function setQty(entry, qty) {
-  entry.qty = Math.max(0, Math.min(20, qty));
-  renderRow(entry);
+/** Re-renders the sidebar's product list straight from the shared
+ *  cart (assets/js/cart.js) — so it only ever shows products the
+ *  shopper actually added on index.html / products.html, never every
+ *  product on the site. Re-runs after every add/remove/qty change. */
+function renderCart() {
+  const items = getCart();
+  const container = document.getElementById('co-products');
+  const emptyState = document.getElementById('co-cart-empty');
+  const addMoreLink = document.getElementById('co-add-more');
+  if (!container) return;
+
+  const isEmpty = items.length === 0;
+  container.hidden = isEmpty;
+  if (emptyState) emptyState.hidden = !isEmpty;
+  if (addMoreLink) addMoreLink.hidden = isEmpty;
+
+  if (isEmpty) {
+    container.innerHTML = '';
+  } else {
+    container.innerHTML = items.map(renderCartRow).join('');
+
+    container.querySelectorAll('.co-prod-row').forEach((row) => {
+      const id = row.getAttribute('data-id');
+      const item = items.find((i) => i.id === id);
+      if (!item) return;
+
+      row.querySelector('.co-qty-dec')?.addEventListener('click', () => setItemQty(id, item.qty - 1));
+      row.querySelector('.co-qty-inc')?.addEventListener('click', () => setItemQty(id, item.qty + 1));
+      row.querySelector('.co-prod-remove')?.addEventListener('click', () => removeFromCart(id));
+    });
+  }
+
   updateSummary();
 }
 
-function selectVariantBySize(entry, size) {
-  if (!size) return;
-  const pill = Array.from(entry.variants).find((p) => p.getAttribute('data-size') === size);
-  if (!pill) return;
-  entry.variants.forEach((p) => p.classList.remove('is-active'));
-  pill.classList.add('is-active');
-  entry.size = size;
-  entry.price = parseFloat(pill.getAttribute('data-price')) || 0;
-}
-
-function renderRow(entry) {
-  entry.qtyEl.textContent = String(entry.qty);
-  entry.row.classList.toggle('is-empty', entry.qty === 0);
-  entry.totalEl.textContent = entry.qty > 0 ? formatPKR(entry.price * entry.qty) : '—';
-}
-
-/** Reads ?product=&size=&qty= from the URL — set when a homepage
- *  "Buy Now" button sends the shopper here with an item pre-loaded. */
+/** Reads ?product=&size=&qty= from the URL — set when a "Buy Now"
+ *  button sends the shopper here with an item pre-loaded — adds it
+ *  to the shared cart, then strips the query string so refreshing
+ *  the page doesn't add it a second time. */
 function applyQueryPrefill() {
   const params = new URLSearchParams(window.location.search);
   const pid = params.get('product');
-  if (!pid || !state.cart.has(pid)) return;
+  if (!pid) return;
 
-  const entry = state.cart.get(pid);
   const size = params.get('size');
   const qty = Math.max(1, Math.min(20, parseInt(params.get('qty'), 10) || 1));
+  addToCart(pid, size, qty);
 
-  selectVariantBySize(entry, size);
-  entry.qty = qty;
-  renderRow(entry);
+  const url = new URL(window.location.href);
+  url.search = '';
+  window.history.replaceState({}, '', url);
 }
 
+/** Total number of items (sum of quantities) currently in the cart. */
 function cartItemCount() {
-  let count = 0;
-  state.cart.forEach((e) => { count += e.qty; });
-  return count;
+  return cartCount();
 }
 
+/** Total price of everything currently in the cart. */
 function cartSubtotal() {
-  let total = 0;
-  state.cart.forEach((e) => { total += e.qty > 0 ? e.price * e.qty : 0; });
-  return total;
+  return getCartSubtotal();
 }
 
 /* ============================================================
@@ -595,34 +601,26 @@ function initGPS() {
    STEP 3 — REVIEW
 ============================================================ */
 
-function productIconSvg(pid) {
-  const iconMap = {
-    honey: '#icon-honey-jar',
-    coconut: '#icon-coconut-oil',
-    mustard: '#icon-mustard-oil',
-  };
-  const href = iconMap[pid] || '#icon-leaf';
-  return `<svg class="icon" aria-hidden="true"><use href="${href}"></use></svg>`;
+function productIconSvg(iconId) {
+  return `<svg class="icon" aria-hidden="true"><use href="#${iconId || 'icon-leaf'}"></use></svg>`;
 }
 
 function renderReview() {
   // Products
   const itemsEl = document.getElementById('review-items');
   if (itemsEl) {
-    const rows = [];
-    state.cart.forEach((entry, pid) => {
-      if (entry.qty === 0) return;
-      const meta = PRODUCT_META[pid] || {};
-      rows.push(`
+    const rows = getCart().map((item) => {
+      const meta = getProductMeta(item.pid) || {};
+      return `
         <div class="co-review-item">
-          <div class="co-review-item-icon ${meta.icon || ''}">${productIconSvg(pid)}</div>
+          <div class="co-review-item-icon ${meta.badgeClass ? `is-${meta.badgeClass}` : ''}">${productIconSvg(meta.icon)}</div>
           <div class="co-review-item-info">
-            <div class="co-review-item-name">${escapeHtml(entry.name)}</div>
-            <div class="co-review-item-meta">${escapeHtml(entry.size)} &times; ${entry.qty}</div>
+            <div class="co-review-item-name">${escapeHtml(meta.name || item.pid)}</div>
+            <div class="co-review-item-meta">${escapeHtml(item.size)} &times; ${item.qty}</div>
           </div>
-          <div class="co-review-item-price">${formatPKR(entry.price * entry.qty)}</div>
+          <div class="co-review-item-price">${formatPKR(item.price * item.qty)}</div>
         </div>
-      `);
+      `;
     });
     itemsEl.innerHTML = rows.join('') || `<p class="co-review-empty">No products selected.</p>`;
   }
@@ -737,11 +735,9 @@ function buildOrderMessage(customer, orderRef) {
   if (customer.email) lines.push(`Email: ${customer.email}`);
   lines.push('');
   lines.push('*Order Items*');
-  let i = 1;
-  state.cart.forEach((entry) => {
-    if (entry.qty === 0) return;
-    lines.push(`${i}. ${entry.name} (${entry.size}) x${entry.qty} — ${formatPKR(entry.price * entry.qty)}`);
-    i += 1;
+  getCart().forEach((item, idx) => {
+    const meta = getProductMeta(item.pid) || {};
+    lines.push(`${idx + 1}. ${meta.name || item.pid} (${item.size}) x${item.qty} — ${formatPKR(item.price * item.qty)}`);
   });
   lines.push('');
   lines.push('*Delivery*');
@@ -795,6 +791,7 @@ function initConfirmButton() {
       btn.classList.remove('is-loading');
       const refEl = document.getElementById('success-ref');
       if (refEl) refEl.textContent = orderRef;
+      clearCart();
       goToStep(4);
     }, 450);
   });
@@ -804,9 +801,11 @@ function initConfirmButton() {
    INIT
 ============================================================ */
 function init() {
-  initCart();
   applyQueryPrefill();
-  updateSummary();
+  renderCart();
+  // Any add/remove/qty change anywhere (this page or another tab)
+  // re-renders the sidebar + summary from the single source of truth.
+  window.addEventListener('ajwa:cart-updated', renderCart);
 
   initMobileSidebarRelocation();
   initMobileToggle();

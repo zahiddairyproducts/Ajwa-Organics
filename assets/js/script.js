@@ -22,6 +22,8 @@
      and can be reused as-is on every new page.
    ================================================================ */
 
+import { addToCart, showCartToast, initCartBadge } from './cart.js';
+
 /** Site-wide constants. Edit here, not inline elsewhere. */
 const SITE_CONFIG = {
   whatsappNumber: '923093093535',
@@ -42,9 +44,12 @@ function buildWhatsAppLink(product, size) {
 
 /**
  * Builds a link to checkout.html with a product pre-loaded into the
- * order summary, so "Buy Now" on a product card lands the shopper
- * straight into checkout with that item already in the cart.
- * @param {string} pid - Product id matching checkout's data-pid (honey/coconut/mustard).
+ * order summary via query params. No longer used by "Buy Now" (which
+ * now adds straight to the shared cart — see initProductCards), but
+ * kept available/exported in case a future page (e.g. a marketing
+ * email or ad landing page) wants to deep-link a single product into
+ * checkout without going through the cart first.
+ * @param {string} pid - Product id matching a PRODUCT_CATALOG key in cart.js (honey/coconut/mustard).
  * @param {string} size - Selected size/variant, e.g. "500g".
  * @param {number} [qty] - Quantity to pre-fill (default 1).
  * @returns {string} Relative URL to checkout.html with query params.
@@ -108,19 +113,25 @@ function initMobileNav() {
 }
 
 /**
- * For each product card: wires the size-pill selector to update
- * the displayed price and the "Buy Now" WhatsApp link, and applies
- * an initial selection on load (the pill already marked
- * aria-pressed="true" in markup, falling back to the first pill).
+ * For each product card: wires the size-pill selector to update the
+ * displayed price, wires "Add to Cart" to push the selected size into
+ * the shared cart (cart.js) without leaving the page, and wires
+ * "Buy Now" to add the same item then jump straight into checkout —
+ * so checkout.html only ever shows products the shopper actually
+ * chose here, never every product on the site.
  */
 function initProductCards() {
   document.querySelectorAll('.product-card').forEach((card) => {
     const pid = card.getAttribute('data-pid');
+    const productName = card.getAttribute('data-product') || pid;
     const priceEl = card.querySelector('.price-value');
     const originalEl = card.querySelector('.price-original');
     const buyBtn = card.querySelector('.buy-now-btn');
+    const addBtn = card.querySelector('.add-to-cart-btn');
     const pills = card.querySelectorAll('.size-pill');
-    if (!priceEl || !buyBtn || !pills.length) return;
+    if (!priceEl || !pills.length) return;
+
+    let activeSize = null;
 
     const applySize = (pill) => {
       pills.forEach((p) => p.setAttribute('aria-pressed', 'false'));
@@ -129,6 +140,7 @@ function initProductCards() {
       const size = pill.getAttribute('data-size');
       const price = pill.getAttribute('data-price');
       const original = pill.getAttribute('data-original');
+      activeSize = size;
 
       priceEl.textContent = `Rs. ${price}`;
 
@@ -145,11 +157,6 @@ function initProductCards() {
           priceEl.classList.remove('is-sale');
         }
       }
-
-      // "Buy Now" sends the shopper into checkout.html with this
-      // exact size pre-loaded into the order summary, rather than
-      // straight to WhatsApp — see buildCheckoutLink() above.
-      buyBtn.setAttribute('href', pid ? buildCheckoutLink(pid, size) : '#');
     };
 
     pills.forEach((pill) => {
@@ -158,6 +165,25 @@ function initProductCards() {
 
     const initialPill = card.querySelector('.size-pill[aria-pressed="true"]') || pills[0];
     applySize(initialPill);
+
+    // "Add to Cart" — adds the currently-selected size to the shared
+    // cart and stays on the page (toast confirms + badge updates).
+    addBtn?.addEventListener('click', () => {
+      if (!pid || !activeSize) return;
+      addToCart(pid, activeSize, 1);
+      showCartToast(`Added ${productName} (${activeSize}) to your cart`);
+      addBtn.classList.add('is-added');
+      setTimeout(() => addBtn.classList.remove('is-added'), 900);
+    });
+
+    // "Buy Now" — adds the same item, then jumps straight into
+    // checkout, which will render only what's actually in the cart.
+    buyBtn?.addEventListener('click', (event) => {
+      if (!pid || !activeSize) return;
+      event.preventDefault();
+      addToCart(pid, activeSize, 1);
+      window.location.href = 'checkout.html';
+    });
   });
 }
 
@@ -232,6 +258,7 @@ function init() {
   initCatalogFilters();
   initScrollReveal();
   initFooterYear();
+  initCartBadge();
 }
 
 if (document.readyState === 'loading') {
