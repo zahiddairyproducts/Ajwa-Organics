@@ -1191,3 +1191,145 @@
   text-align: center;
 }
 .site-toast.is-visible { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+
+/* ============================================================
+   16. POLICY / LEGAL PAGES
+   ------------------------------------------------------------
+   Used by: shipping-delivery.html, terms-conditions.html, and
+   any future legal page (privacy-policy.html, returns-refunds.html).
+   Reuses .page-banner for the header; this section styles the
+   long-form body text + the contact callout beneath it.
+   ============================================================ */
+.policy-section { padding: 80px 0 96px; }
+@media (max-width: 768px) { .policy-section { padding: 56px 0 72px; } }
+
+.policy-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 56px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .policy-layout { grid-template-columns: 1fr; gap: 32px; }
+}
+
+.policy-toc {
+  position: sticky;
+  top: 110px;
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  padding: 22px 22px 24px;
+}
+@media (max-width: 900px) { .policy-toc { position: static; } }
+.policy-toc h2 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--c-moss);
+  margin-bottom: 14px;
+}
+.policy-toc ol { list-style: none; counter-reset: toc; display: flex; flex-direction: column; gap: 10px; }
+.policy-toc li { counter-increment: toc; }
+.policy-toc a {
+  display: flex;
+  gap: 10px;
+  font-size: 0.92rem;
+  color: var(--c-ink-soft);
+  line-height: 1.4;
+  transition: color .2s var(--ease);
+}
+.policy-toc a::before {
+  content: counter(toc);
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--c-cream-soft);
+  color: var(--c-forest);
+  font-size: 0.74rem;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+}
+.policy-toc a:hover { color: var(--c-forest); }
+
+.policy-body { max-width: 720px; }
+.policy-updated {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--c-ink-soft);
+  background: var(--c-cream-soft);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
+  margin-bottom: 36px;
+}
+
+.policy-block { margin-bottom: 40px; }
+.policy-block:last-child { margin-bottom: 0; }
+.policy-block h2 {
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  scroll-margin-top: 110px;
+}
+.policy-block h3 {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--c-ink);
+  margin: 18px 0 8px;
+}
+.policy-block p {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.policy-block ul {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+.policy-block ul li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--c-ink-soft);
+}
+.policy-block ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px; top: 9px;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--c-honey);
+}
+.policy-block a { color: var(--c-forest); font-weight: 600; text-decoration: underline; text-decoration-color: var(--c-line); }
+.policy-block a:hover { text-decoration-color: var(--c-forest); }
+
+.policy-contact-card {
+  margin-top: 48px;
+  background: var(--c-olive-dark);
+  color: var(--c-cream-ink);
+  border-radius: var(--radius-lg);
+  padding: 32px clamp(24px, 5vw, 40px);
+}
+.policy-contact-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--c-cream-ink);
+  margin-bottom: 14px;
+}
+.policy-contact-card ul { display: flex; flex-direction: column; gap: 10px; }
+.policy-contact-card li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.95rem;
+}
+.policy-contact-card .icon { width: 17px; height: 17px; color: var(--c-honey-light); flex-shrink: 0; }
+.policy-contact-card a { color: var(--c-cream-ink); }
+.policy-contact-card a:hover { text-decoration: underline; }
