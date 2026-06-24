@@ -9,6 +9,13 @@ Pages directly from this repo with zero build step.
 ajwa-organics-site/
 ├── index.html              Homepage. Head + <header>/<footer> are the
 │                            shared template for every future page.
+│                            Products section shows only items flagged
+│                            data-featured="true" (currently honey + 
+│                            coconut oil) — full catalog lives on
+│                            products.html, linked via "See All Products".
+├── products.html           Full product catalog (every product, with
+│                            category filter pills). Same design/theme,
+│                            same product-card markup as the homepage.
 ├── checkout.html           Multi-step checkout: cart → delivery map →
 │                            review → WhatsApp order handoff.
 └── assets/
@@ -27,6 +34,26 @@ ajwa-organics-site/
                             field validation, Leaflet map, GPS, order
                             review, and WhatsApp message builder.
 ```
+
+## Homepage vs. full catalog (products.html)
+
+- The homepage's `#products` section is a **curated slice only** —
+  each card there carries `data-featured="true"`. Everything else
+  lives on `products.html`, which lists every product with category
+  filter pills (`.catalog-filters`) above the grid.
+- **To feature a product on the homepage:** copy its `<article
+  class="product-card">` block from `products.html` into `index.html`'s
+  `#products` grid and add `data-featured="true"`.
+- **To put a product on sale:** add `data-original="<regular price>"`
+  to the relevant `<button class="size-pill">`. `script.js` shows the
+  regular price struck through next to the active sale price
+  automatically — no other markup or CSS changes needed. Leave
+  `data-original` off a pill to keep it at regular price.
+- **To add a brand-new product:** duplicate a product-card `<article>`
+  in `products.html` (see the "ADD NEW PRODUCT CARDS HERE" comment in
+  the grid), give it a unique `data-pid` (must match a product id
+  checkout.html understands) and a `data-category` (used by the
+  filter pills — currently `honey` / `oil`, add more as needed).
 
 ## Checkout flow
 

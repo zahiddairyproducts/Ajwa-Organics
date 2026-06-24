@@ -1,101 +1,53 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  AJWA ORGANICS — SITE MAP / BUILD PLAN
+  AJWA ORGANICS — PRODUCTS PAGE (full catalog)
   ============================================================
-  Planned pages (per Veloce Digital proposal v2). Build one at a
-  time; filenames below are already wired into this homepage's
-  nav + footer, so each new page "just works" once it exists.
+  Shows every product (not just the homepage's featured/sale
+  slice). <head> link tags, announcement bar, header, and footer
+  are kept 100% identical to index.html — see index.html's own
+  top comment + README.md for the full site map and conventions.
 
-    index.html                              <- this file (Homepage)
-    checkout.html                           <- DONE — cart + map + WhatsApp handoff
-    products.html                           <- DONE — full catalog (all products)
-    our-story.html                          <- philosophy + quality standards
-    blog.html                               <- Purity Blog index (EN)
-    blog-how-to-tell-if-honey-is-real.html  <- article (EN)
-    blog-cold-pressed-vs-refined-oil.html   <- article (EN)
-    blog-ur/...                             <- Urdu mirror of the blog, once
-                                                it exists: same templates,
-                                                <html lang="ur" dir="rtl">,
-                                                see style.css section 14
-    privacy-policy.html
-    terms-conditions.html
-    shipping-delivery.html
-    returns-refunds.html
-    contact.html                            <- optional, only if a real
-                                                contact FORM is wanted beyond
-                                                the footer info (not in scope yet)
-
-  NOT in the original proposal (currently a dead "#" link in the
-  footer, left for you to decide): FAQs.
-
-  HOW TO BUILD EACH NEW PAGE (keeps the whole site consistent):
-   1. Duplicate this file, rename it to the filename above.
-   2. Keep <head>'s <link> tags, the announcement bar, <header>,
-      and <footer> 100% identical to this file — don't restyle
-      per page. style.css and script.js are shared site-wide.
-   3. Replace only the content inside <main>...</main>.
-   4. On the new page's own <header>, mark the matching nav <li>
-      as the active one for clarity (optional: add class="is-active").
-   5. Link back to this page using "index.html#section", not
-      "#section" — bare anchors only work on the page that
-      defines that id.
-   6. Publishing a page in Urdu? Set <html lang="ur" dir="rtl">
-      instead of editing component CSS — style.css section 14
-      already mirrors the shared components for RTL. For a short
-      Urdu snippet inside an otherwise-English page, wrap it in
-      class="urdu-content" instead.
-
-  Buy Now / "Order on WhatsApp" CTAs now route to checkout.html
-  (cart + delivery map + review) instead of jumping straight to
-  WhatsApp. WhatsApp is still the final step — checkout.html opens
-  a pre-filled wa.me message once the shopper confirms. The header's
-  small "Order on WhatsApp" pill (top-right, every page) is left as
-  a direct WhatsApp shortcut on purpose, for quick questions that
-  aren't a full order.
+  Adding a new product here:
+   1. Copy a <article class="product-card">...</article> block.
+   2. Set data-pid (must match a checkout.html product id) and
+      data-category (used by the filter pills above the grid).
+   3. To put it on sale, add data-original="<regular price>" to
+      the relevant size pill(s) — script.js shows the struck-
+      through original price automatically.
+   4. To also feature it on the homepage, copy the same card into
+      index.html's #products grid and add data-featured="true".
   ============================================================
 -->
 <html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore</title>
-  <meta name="description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore. No additives, no shortcuts.">
+  <title>All Products — Ajwa Organics | Raw Honey &amp; Cold-Pressed Oils</title>
+  <meta name="description" content="Browse the full Ajwa Organics catalog — raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore.">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#54693F">
-  <link rel="canonical" href="https://ajwaorganics.pk/">
+  <link rel="canonical" href="https://ajwaorganics.pk/products.html">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://ajwaorganics.pk/">
+  <meta property="og:url" content="https://ajwaorganics.pk/products.html">
   <meta property="og:site_name" content="Ajwa Organics">
   <meta property="og:locale" content="en_PK">
-  <meta property="og:title" content="Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore">
-  <meta property="og:description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore. No additives, no shortcuts.">
+  <meta property="og:title" content="All Products — Ajwa Organics">
+  <meta property="og:description" content="Browse the full Ajwa Organics catalog — raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore.">
   <meta property="og:image" content="https://ajwaorganics.pk/assets/og-image.jpg">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Ajwa Organics — Raw Honey &amp; Cold-Pressed Oils, Delivered Across Lahore">
-  <meta name="twitter:description" content="Raw wildflower honey and traditionally cold-pressed coconut and mustard oil, made in small batches and delivered fresh across Lahore.">
+  <meta name="twitter:title" content="All Products — Ajwa Organics">
+  <meta name="twitter:description" content="Browse the full Ajwa Organics catalog — raw honey and cold-pressed oils, delivered fresh across Lahore.">
   <meta name="twitter:image" content="https://ajwaorganics.pk/assets/og-image.jpg">
-
-  <!--
-    Bilingual prep: once blog.html / blog-ur/ both exist, list both
-    language versions of each page here so search engines connect
-    them, e.g. on a given article:
-      <link rel="alternate" hreflang="en" href="https://ajwaorganics.pk/blog-how-to-tell-if-honey-is-real.html">
-      <link rel="alternate" hreflang="ur" href="https://ajwaorganics.pk/blog-ur/how-to-tell-if-honey-is-real.html">
-      <link rel="alternate" hreflang="x-default" href="https://ajwaorganics.pk/blog-how-to-tell-if-honey-is-real.html">
-  -->
 
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2354693F' d='M12 2C8 3 4 6 3.2 11c-.8 5 2.3 9.6 7 10.8C9 17 9.6 11.4 13 7.4c2-2.3 5-3.6 7.8-3.6C19 1.8 15.4 1.2 12 2Z'/%3E%3C/svg%3E">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Noto Nastaliq Urdu is loaded site-wide now (small + cached
-       once visited) so it's already warm whenever the bilingual
-       blog ships — see style.css section 14 / .urdu-content. -->
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="assets/css/style.css">
@@ -272,7 +224,7 @@
     <nav class="main-nav" aria-label="Primary">
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="products.html">Products</a></li>
+        <li class="is-active"><a href="products.html">Products</a></li>
         <li><a href="index.html#promise">Our Promise</a></li>
         <li><a href="index.html#blog">Blog</a></li>
         <li><a href="index.html#contact">Contact</a></li>
@@ -299,7 +251,7 @@
 <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
   <ul>
     <li><a href="index.html">Home</a></li>
-    <li><a href="products.html">Products</a></li>
+    <li class="is-active"><a href="products.html">Products</a></li>
     <li><a href="index.html#promise">Our Promise</a></li>
     <li><a href="index.html#blog">Blog</a></li>
     <li><a href="index.html#contact">Contact</a></li>
@@ -313,79 +265,40 @@
 <main id="main">
 
   <!-- ============================================================
-       HERO
+       PAGE BANNER
   ============================================================ -->
-  <section class="hero">
-    <div class="container">
-      <div class="hero-copy reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Lahore's Own Organic Store
-        </p>
-        <h1 class="hero-title">
-          <span class="weight">Pure Honey,</span>
-          <span class="accent">Cold&#8209;Pressed Oils,</span>
-          <span class="weight">Delivered Fresh.</span>
-        </h1>
-        <p class="hero-sub">Raw wildflower honey and traditionally extracted coconut and mustard oil, made in small batches and delivered fresh across Lahore — no additives, no shortcuts.</p>
-        <div class="hero-ctas">
-          <a href="index.html#products" class="btn btn--primary">
-            Shop All Products
-            <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-          </a>
-          <a href="index.html#promise" class="btn btn--outline">Our Promise</a>
-        </div>
-        <div class="trust-points">
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-check-shield"></use></svg>No Additives</span>
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-press"></use></svg>Cold-Pressed</span>
-          <span class="trust-point"><svg class="icon" aria-hidden="true"><use href="#icon-truck"></use></svg>Lahore Home Delivery</span>
-        </div>
-      </div>
-
-      <div class="hero-visual reveal" aria-hidden="true">
-        <div class="visual-card visual-card--honey">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-honey-jar"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Best Seller</p>
-            <p class="visual-card-label">Raw Wildflower Honey</p>
-          </div>
-        </div>
-        <div class="visual-card visual-card--coconut">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-coconut-oil"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Cold-Pressed</p>
-            <p class="visual-card-label">Pure Coconut Oil</p>
-          </div>
-        </div>
-        <div class="visual-card visual-card--mustard">
-          <div class="icon-figure"><svg class="icon"><use href="#icon-mustard-oil"></use></svg></div>
-          <div>
-            <p class="visual-card-tag">Farm Fresh</p>
-            <p class="visual-card-label">Pure Mustard Oil</p>
-          </div>
-        </div>
-      </div>
+  <section class="page-banner">
+    <div class="container reveal">
+      <p class="eyebrow">
+        <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
+        Full Catalog
+      </p>
+      <h1>All Products</h1>
+      <p>Every jar and bottle we make, in one place — pick a product and order in seconds on WhatsApp.</p>
+      <p class="page-banner-crumb">
+        <a href="index.html">Home</a><span>/</span>Products
+      </p>
     </div>
   </section>
 
   <!-- ============================================================
-       PRODUCTS
+       FULL PRODUCT GRID
   ============================================================ -->
-  <section class="products section" id="products">
+  <section class="products section" id="all-products">
     <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Featured &amp; On Sale
-        </p>
-        <h2>Straight From Nature, Straight To You.</h2>
-        <p>A few favourites and current offers — see the full range on our products page.</p>
+
+      <div class="catalog-filters reveal" role="group" aria-label="Filter products by category">
+        <button type="button" class="catalog-filter is-active" data-filter="all">All Products</button>
+        <button type="button" class="catalog-filter" data-filter="honey">Honey</button>
+        <button type="button" class="catalog-filter" data-filter="oil">Cold-Pressed Oils</button>
       </div>
 
       <div class="product-grid">
 
-        <!-- Product 1 — Honey -->
-        <article class="product-card reveal" data-product="Raw Wildflower Honey" data-pid="honey" data-category="honey" data-featured="true">
+        <!-- Product 1 — Honey (on sale — see README in this file's
+             head comment for how data-original drives the struck-
+             through price) -->
+        <article class="product-card reveal" data-product="Raw Wildflower Honey" data-pid="honey" data-category="honey">
           <div class="product-media product-media--honey">
             <span class="product-badge is-sale">Sale</span>
             <div class="icon-figure"><svg class="icon"><use href="#icon-honey-jar"></use></svg></div>
@@ -414,9 +327,9 @@
         </article>
 
         <!-- Product 2 — Coconut Oil -->
-        <article class="product-card reveal" data-product="Pure Coconut Oil" data-pid="coconut" data-category="oil" data-featured="true">
+        <article class="product-card reveal" data-product="Pure Coconut Oil" data-pid="coconut" data-category="oil">
           <div class="product-media product-media--coconut">
-            <span class="product-badge">Featured</span>
+            <span class="product-badge">Cold-Pressed</span>
             <div class="icon-figure"><svg class="icon"><use href="#icon-coconut-oil"></use></svg></div>
           </div>
           <div class="product-body">
@@ -442,103 +355,52 @@
           </div>
         </article>
 
-      </div>
-
-      <div class="products-more reveal">
-        <a href="products.html" class="btn btn--outline">
-          See All Products <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       WHY AJWA ORGANICS
-  ============================================================ -->
-  <section class="promise section" id="promise">
-    <div class="container">
-      <div class="promise-intro reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Our Promise
-        </p>
-        <h2>Why Ajwa Organics?</h2>
-        <p>We believe in honest food, made the traditional way and delivered with care — no shortcuts, no compromises, just real goodness from the source.</p>
-        <a href="our-story.html" class="btn btn--outline-light">
-          Read Our Story
-          <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-        </a>
-      </div>
-
-      <div class="feature-grid reveal">
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-honeycomb"></use></svg>
-          <h3>Pure &amp; Unfiltered</h3>
-          <p>No additives, no shortcuts — just what nature intended.</p>
-        </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-press"></use></svg>
-          <h3>Cold-Pressed Method</h3>
-          <p>Traditional extraction that protects every nutrient and flavour.</p>
-        </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-truck"></use></svg>
-          <h3>Fresh, Local Delivery</h3>
-          <p>Bottled in small batches and delivered fresh across Lahore.</p>
-        </div>
-        <div class="feature-item">
-          <svg class="icon" aria-hidden="true"><use href="#icon-chat"></use></svg>
-          <h3>WhatsApp Ordering</h3>
-          <p>Simple, personal ordering — message us and we'll take it from there.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============================================================
-       BLOG / PURITY GUIDE
-  ============================================================ -->
-  <section class="blog section" id="blog">
-    <div class="container">
-      <div class="section-head reveal">
-        <p class="eyebrow">
-          <svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg>
-          Purity Guide
-        </p>
-        <h2>Learn What You're Eating</h2>
-        <p>Real food knowledge from our latest guides.</p>
-      </div>
-
-      <div class="blog-grid">
-        <a href="blog-how-to-tell-if-honey-is-real.html" class="blog-card reveal">
-          <div class="blog-thumb tone-a"><svg class="icon" aria-hidden="true"><use href="#icon-droplet"></use></svg></div>
-          <div class="blog-content">
-            <h3>How To Tell If Your Honey Is Real</h3>
-            <p>Simple tests and honest truths about the honey you bring home.</p>
-            <span class="blog-link">Read Article <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
+        <!-- Product 3 — Mustard Oil -->
+        <article class="product-card reveal" data-product="Pure Mustard Oil" data-pid="mustard" data-category="oil">
+          <div class="product-media product-media--mustard">
+            <span class="product-badge is-mustard">Farm Fresh</span>
+            <div class="icon-figure"><svg class="icon"><use href="#icon-mustard-oil"></use></svg></div>
           </div>
-        </a>
-        <a href="blog-cold-pressed-vs-refined-oil.html" class="blog-card reveal">
-          <div class="blog-thumb tone-b"><svg class="icon" aria-hidden="true"><use href="#icon-leaf"></use></svg></div>
-          <div class="blog-content">
-            <h3>Cold-Pressed vs. Refined Oil: What Pakistani Kitchens Should Know</h3>
-            <p>Understand the difference, and why it matters for your family's health.</p>
-            <span class="blog-link">Read Article <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg></span>
+          <div class="product-body">
+            <h3>Pure Mustard Oil</h3>
+            <p>Traditionally pressed from premium mustard seed for a bold, pure flavour with nothing else added.</p>
+            <div class="size-pills" role="group" aria-label="Select a size">
+              <button type="button" class="size-pill" aria-pressed="true" data-size="500ml" data-price="950">500ml</button>
+              <button type="button" class="size-pill" aria-pressed="false" data-size="1L" data-price="1,800">1L</button>
+            </div>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="label">Price</span>
+                <span class="amount">
+                  <span class="price-original" hidden></span>
+                  <span class="price-value">Rs. 950</span>
+                </span>
+              </div>
+              <a href="#" class="btn btn--primary btn--sm buy-now-btn">
+                Buy Now <svg class="icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+              </a>
+            </div>
           </div>
-        </a>
+        </article>
+
+        <!-- ADD NEW PRODUCT CARDS HERE — copy an <article> block above,
+             update data-product / data-pid / data-category, icon,
+             description, sizes + prices, and (optionally) data-original
+             on a size-pill to put it on sale. -->
+
       </div>
     </div>
   </section>
 
   <!-- ============================================================
-       FINAL CTA
+       FINAL CTA BAND
   ============================================================ -->
   <section class="cta-band" id="order">
     <div class="container reveal">
       <h2>Ready To Order Pure?</h2>
       <p>Bring nature's finest home — pure, unfiltered, and made the way it should be.</p>
       <div class="cta-band-actions">
-        <a href="products.html" class="btn btn--outline">Browse All Products</a>
+        <a href="index.html" class="btn btn--outline">Back To Homepage</a>
         <a href="checkout.html" class="btn btn--primary">
           <svg class="icon" aria-hidden="true"><use href="#icon-whatsapp"></use></svg>
           Order on WhatsApp

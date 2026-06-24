@@ -117,6 +117,7 @@ function initProductCards() {
   document.querySelectorAll('.product-card').forEach((card) => {
     const pid = card.getAttribute('data-pid');
     const priceEl = card.querySelector('.price-value');
+    const originalEl = card.querySelector('.price-original');
     const buyBtn = card.querySelector('.buy-now-btn');
     const pills = card.querySelectorAll('.size-pill');
     if (!priceEl || !buyBtn || !pills.length) return;
@@ -127,8 +128,24 @@ function initProductCards() {
 
       const size = pill.getAttribute('data-size');
       const price = pill.getAttribute('data-price');
+      const original = pill.getAttribute('data-original');
 
       priceEl.textContent = `Rs. ${price}`;
+
+      // Sale pricing: a pill carrying data-original shows the regular
+      // price struck through next to the active sale price. Pills
+      // without it (not on sale) hide the original-price element.
+      if (originalEl) {
+        if (original) {
+          originalEl.textContent = `Rs. ${original}`;
+          originalEl.hidden = false;
+          priceEl.classList.add('is-sale');
+        } else {
+          originalEl.hidden = true;
+          priceEl.classList.remove('is-sale');
+        }
+      }
+
       // "Buy Now" sends the shopper into checkout.html with this
       // exact size pre-loaded into the order summary, rather than
       // straight to WhatsApp — see buildCheckoutLink() above.
@@ -141,6 +158,34 @@ function initProductCards() {
 
     const initialPill = card.querySelector('.size-pill[aria-pressed="true"]') || pills[0];
     applySize(initialPill);
+  });
+}
+
+/**
+ * Wires up the category filter pills on the full catalog page
+ * (products.html). No-ops on pages without `.catalog-filters`, so
+ * it's safe to include in the shared site script. Filtering is a
+ * pure show/hide on `.product-card[data-category]` — no reload.
+ */
+function initCatalogFilters() {
+  const filterBar = document.querySelector('.catalog-filters');
+  const cards = document.querySelectorAll('.product-grid .product-card');
+  if (!filterBar || !cards.length) return;
+
+  const buttons = filterBar.querySelectorAll('.catalog-filter');
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      buttons.forEach((b) => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+
+      cards.forEach((card) => {
+        const show = filter === 'all' || card.getAttribute('data-category') === filter;
+        card.style.display = show ? '' : 'none';
+      });
+    });
   });
 }
 
@@ -184,6 +229,7 @@ function init() {
   initHeaderScroll();
   initMobileNav();
   initProductCards();
+  initCatalogFilters();
   initScrollReveal();
   initFooterYear();
 }

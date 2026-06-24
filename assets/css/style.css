@@ -57,6 +57,8 @@
     --c-cream-ink:    #F4EFE2;
     --c-line:         rgba(54,65,41,0.14);
     --c-line-light:   rgba(250,246,234,0.18);
+    --c-sale:         #A8462F;
+    --c-sale-soft:    #F3E0D7;
 
     --font-display: 'Fraunces', Georgia, serif;
     --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -315,6 +317,9 @@
   }
   .main-nav a:hover { color: var(--c-olive); }
   .main-nav a:hover::after { right: 0; }
+  .main-nav li.is-active a,
+  .mobile-nav li.is-active a { color: var(--c-olive); font-weight: 600; }
+  .main-nav li.is-active a::after { right: 0; }
 
   .header-actions { display: flex; align-items: center; gap: 18px; }
   .icon-btn {
@@ -632,7 +637,86 @@
   }
   .product-price { display: flex; flex-direction: column; }
   .product-price .label { font-size: 0.7rem; color: var(--c-ink-soft); text-transform: uppercase; letter-spacing: 0.08em; }
-  .product-price .amount { font-family: var(--font-display); font-size: 1.32rem; font-weight: 600; color: var(--c-olive); }
+  .product-price .amount { display: flex; align-items: baseline; gap: 8px; font-family: var(--font-display); font-size: 1.32rem; font-weight: 600; color: var(--c-olive); }
+
+  /* On-sale pricing: original price shown struck through next to the
+     active sale price. Toggled per size by script.js (reads
+     data-original / data-price on the pressed .size-pill). Hidden by
+     default — only appears when a pill carries data-original. */
+  .price-original {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--c-ink-soft);
+    text-decoration: line-through;
+  }
+  .price-original[hidden] { display: none; }
+  .price-value.is-sale { color: var(--c-sale); }
+
+  /* "Sale" product badge — same shape as .product-badge, sale palette. */
+  .product-badge.is-sale { background: var(--c-sale); color: var(--c-cream); }
+
+  /* "See All Products" link under the homepage's featured/sale grid —
+     keeps the full catalog one click away without crowding the section. */
+  .products-more {
+    margin-top: 44px;
+    text-align: center;
+  }
+
+  /* ============================================================
+     8B. PAGE BANNER (sub-pages, e.g. products.html)
+     Compact hero used at the top of pages that aren't the homepage.
+     Reuses hero tokens/colors so it never looks like a forked theme.
+  ============================================================ */
+  .page-banner {
+    background: linear-gradient(165deg, var(--c-forest), var(--c-olive) 140%);
+    padding: 64px 0 56px;
+    text-align: center;
+  }
+  .page-banner .eyebrow { justify-content: center; color: var(--c-honey-light); }
+  .page-banner h1 {
+    color: var(--c-cream);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    margin-bottom: 10px;
+  }
+  .page-banner p {
+    color: var(--c-cream-ink);
+    max-width: 56ch;
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+  .page-banner-crumb {
+    margin-top: 18px;
+    font-size: 0.85rem;
+  }
+  .page-banner-crumb a { color: var(--c-honey-light); }
+  .page-banner-crumb a:hover { text-decoration: underline; }
+  .page-banner-crumb span { color: var(--c-cream-ink); opacity: 0.6; padding: 0 6px; }
+
+  /* Simple category filter pills at the top of the full catalog page. */
+  .catalog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 44px;
+  }
+  .catalog-filter {
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 9px 18px;
+    border-radius: var(--radius-pill);
+    border: 1.5px solid var(--c-line);
+    color: var(--c-ink-soft);
+    background: var(--c-cream);
+    transition: all .2s var(--ease);
+  }
+  .catalog-filter:hover { border-color: var(--c-moss); }
+  .catalog-filter.is-active {
+    background: var(--c-forest);
+    border-color: var(--c-forest);
+    color: var(--c-cream);
+  }
 
   /* ============================================================
      9. WHY AJWA ORGANICS (dark band)
