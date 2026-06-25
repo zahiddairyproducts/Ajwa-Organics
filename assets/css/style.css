@@ -1333,3 +1333,51 @@
 .policy-contact-card .icon { width: 17px; height: 17px; color: var(--c-honey-light); flex-shrink: 0; }
 .policy-contact-card a { color: var(--c-cream-ink); }
 .policy-contact-card a:hover { text-decoration: underline; }
+
+/* ============================================================
+   17. COMING SOON (used by blog.html; reusable for any
+   not-yet-published page)
+   ============================================================ */
+.coming-soon { padding: 96px 0 110px; text-align: center; }
+@media (max-width: 768px) { .coming-soon { padding: 64px 0 80px; } }
+.coming-soon-icon {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--c-cream-soft);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 28px;
+}
+.coming-soon-icon .icon { width: 32px; height: 32px; color: var(--c-forest); }
+.coming-soon h1 {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  margin-bottom: 14px;
+}
+.coming-soon-lede {
+  max-width: 540px;
+  margin: 0 auto 36px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--c-ink-soft);
+}
+.coming-soon-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.coming-soon-topics {
+  margin: 56px auto 0;
+  max-width: 620px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+.coming-soon-topics span {
+  font-size: 0.85rem;
+  color: var(--c-ink-soft);
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+}
