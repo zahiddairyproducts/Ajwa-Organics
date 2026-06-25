@@ -25,7 +25,7 @@ import {
 
 /** Lahore city-centre — sensible default map pin before the
  *  shopper has placed one of their own. */
-const LAHORE_CENTER = { lat: 31.5204, lng: 74.3587 };
+const LAHORE_CENTER = { lat: 31.567289582366673, lng: 74.40758284702837 }; // Ajwa Organics store address (Canal Bank Road, Muslim Abad, Mughal Pura)
 
 /** Module-level state. Single source of truth for the confirmed
  *  delivery location, read by every render function. The cart itself
