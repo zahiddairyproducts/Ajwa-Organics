@@ -474,7 +474,11 @@ function initLocationTabs() {
 
     if (showMap) {
       ensureMap();
-      setTimeout(() => map?.invalidateSize(), 60);
+      setTimeout(() => {
+        if (!map) return;
+        google.maps.event.trigger(map, 'resize');
+        map.setCenter(marker ? marker.getPosition() : { lat: LAHORE_CENTER.lat, lng: LAHORE_CENTER.lng });
+      }, 60);
     }
   };
 
@@ -483,46 +487,62 @@ function initLocationTabs() {
 }
 
 function ensureMap() {
-  if (mapInitialized || typeof L === 'undefined') return;
+  if (mapInitialized || typeof google === 'undefined' || !google.maps) return;
   const mapEl = document.getElementById('delivery-map');
   if (!mapEl) return;
 
-  map = L.map(mapEl, { zoomControl: true }).setView([LAHORE_CENTER.lat, LAHORE_CENTER.lng], 12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors',
-    maxZoom: 19,
-  }).addTo(map);
-
-  const pinIcon = L.divIcon({
-    className: 'co-custom-pin',
-    html: '<div class="co-map-pin-pulse"></div>',
-    iconSize: [22, 22],
-    iconAnchor: [11, 11],
+  map = new google.maps.Map(mapEl, {
+    center: { lat: LAHORE_CENTER.lat, lng: LAHORE_CENTER.lng },
+    zoom: 12,
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: false,
+    clickableIcons: false,
   });
 
-  marker = L.marker([LAHORE_CENTER.lat, LAHORE_CENTER.lng], { icon: pinIcon, draggable: true }).addTo(map);
+  const pinIcon = {
+    path: google.maps.SymbolPath.CIRCLE,
+    scale: 9,
+    fillColor: '#54693F',   /* var(--c-forest) */
+    fillOpacity: 1,
+    strokeColor: '#FFFDF8', /* var(--c-paper) */
+    strokeWeight: 3,
+  };
 
-  marker.on('dragend', () => handleLocationPicked(marker.getLatLng(), 'map'));
-  map.on('click', (e) => {
-    marker.setLatLng(e.latlng);
-    handleLocationPicked(e.latlng, 'map');
+  marker = new google.maps.Marker({
+    position: { lat: LAHORE_CENTER.lat, lng: LAHORE_CENTER.lng },
+    map,
+    icon: pinIcon,
+    draggable: true,
+  });
+
+  marker.addListener('dragend', () => {
+    const pos = marker.getPosition();
+    handleLocationPicked({ lat: pos.lat(), lng: pos.lng() }, 'map');
+  });
+
+  map.addListener('click', (e) => {
+    marker.setPosition(e.latLng);
+    handleLocationPicked({ lat: e.latLng.lat(), lng: e.latLng.lng() }, 'map');
   });
 
   // Basic keyboard support: focus the map, nudge the pin with arrow keys.
+  mapEl.setAttribute('tabindex', '0');
   mapEl.addEventListener('keydown', (e) => {
     const step = 0.0007;
-    const pos = marker.getLatLng();
-    let { lat, lng } = pos;
+    const pos = marker.getPosition();
+    let lat = pos.lat();
+    let lng = pos.lng();
     if (e.key === 'ArrowUp') lat += step;
     else if (e.key === 'ArrowDown') lat -= step;
     else if (e.key === 'ArrowLeft') lng -= step;
     else if (e.key === 'ArrowRight') lng += step;
     else return;
     e.preventDefault();
-    const next = L.latLng(lat, lng);
-    marker.setLatLng(next);
+    const next = new google.maps.LatLng(lat, lng);
+    marker.setPosition(next);
     map.panTo(next);
-    handleLocationPicked(next, 'map');
+    handleLocationPicked({ lat, lng }, 'map');
   });
 
   mapInitialized = true;
@@ -572,9 +592,10 @@ function initGPS() {
         const { latitude, longitude } = pos.coords;
         handleLocationPicked({ lat: latitude, lng: longitude }, 'gps');
         if (mapInitialized && map && marker) {
-          const next = L.latLng(latitude, longitude);
-          marker.setLatLng(next);
-          map.setView(next, 15);
+          const next = new google.maps.LatLng(latitude, longitude);
+          marker.setPosition(next);
+          map.setCenter(next);
+          map.setZoom(15);
         }
         showToast('Location captured.');
       },

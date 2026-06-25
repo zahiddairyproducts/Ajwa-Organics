@@ -396,24 +396,9 @@ body { background: var(--c-cream); }
 }
 .co-map-hint .icon { width: 14px; height: 14px; color: var(--c-honey); flex-shrink: 0; }
 
-/* Leaflet theme adjustments to match the brand */
-.leaflet-container { font-family: var(--font-body); background: var(--c-cream-soft); }
-.leaflet-control-attribution {
-  background: rgba(250,246,234,0.85) !important;
-  color: var(--c-ink-soft) !important;
-  font-size: 0.66rem !important;
-}
-.leaflet-control-zoom a {
-  color: var(--c-olive) !important;
-  border-color: var(--c-line) !important;
-}
-.co-map-pin-pulse {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  background: var(--c-forest);
-  border: 3px solid var(--c-paper);
-  box-shadow: 0 2px 10px rgba(38,46,29,0.4);
-}
+/* Google Maps container — the marker itself is styled via the
+   icon object passed in checkout.js (no DOM/CSS hook needed). */
+.co-map, #delivery-map { background: var(--c-cream-soft); font-family: var(--font-body); }
 
 .co-loc-confirm {
   margin-top: 18px;

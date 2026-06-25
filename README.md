@@ -31,7 +31,7 @@ ajwa-organics-site/
         │                   year). Exports SITE_CONFIG + buildWhatsAppLink
         │                   + buildCheckoutLink for checkout.js to import.
         └── checkout.js     Checkout-only logic: cart state, step flow,
-                            field validation, Leaflet map, GPS, order
+                            field validation, Google Maps, GPS, order
                             review, and WhatsApp message builder.
 ```
 
@@ -66,7 +66,7 @@ ajwa-organics-site/
 
 3. **Step 2 — Delivery Location** — Two options:
    - **Use My Location** — browser GPS → coordinates captured instantly.
-   - **Pin on Map** — Leaflet/OpenStreetMap, drag-and-drop marker, click
+   - **Pin on Map** — Google Maps JS API, drag-and-drop marker, click
      anywhere, keyboard arrow-key nudge. Centred on Lahore by default.
 
 4. **Step 3 — Review** — Full order summary (products, customer info,
@@ -95,8 +95,8 @@ ajwa-organics-site/
 - All checkout components use the `co-` prefix to avoid class collisions.
 - The site header, mobile nav, announcement bar, and footer are 100%
   identical across `index.html` and `checkout.html`.
-- Leaflet marker is replaced with a custom `co-map-pin-pulse` div styled
-  in `checkout.css` to match the brand olive/forest palette.
+- The Google Maps marker uses a custom circular icon (set in `checkout.js`)
+  to match the brand forest-green palette instead of the default red pin.
 
 ## SITE_CONFIG — one place to edit
 
