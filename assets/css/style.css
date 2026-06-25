@@ -722,32 +722,46 @@
   /* ============================================================
      8B. PAGE BANNER (sub-pages, e.g. products.html)
      Compact hero used at the top of pages that aren't the homepage.
-     Reuses hero tokens/colors so it never looks like a forked theme.
+     Light cream theme — matches the homepage hero so branding stays
+     consistent across the whole site (no dark "forked theme" look).
   ============================================================ */
   .page-banner {
-    background: linear-gradient(165deg, var(--c-forest), var(--c-olive) 140%);
+    position: relative;
+    background: var(--c-cream);
+    overflow: hidden;
     padding: 64px 0 56px;
     text-align: center;
   }
-  .page-banner .eyebrow { justify-content: center; color: var(--c-honey-light); }
+  .page-banner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, var(--c-stone) 1.3px, transparent 1.3px);
+    background-size: 28px 28px;
+    opacity: 0.35;
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 75%);
+    mask-image: linear-gradient(to bottom, black, transparent 75%);
+    pointer-events: none;
+  }
+  .page-banner .container { position: relative; }
+  .page-banner .eyebrow { justify-content: center; color: var(--c-honey); }
   .page-banner h1 {
-    color: var(--c-cream);
+    color: var(--c-ink);
     font-size: clamp(2rem, 4vw, 2.8rem);
     margin-bottom: 10px;
   }
   .page-banner p {
-    color: var(--c-cream-ink);
+    color: var(--c-ink-soft);
     max-width: 56ch;
     margin: 0 auto;
-    opacity: 0.85;
   }
   .page-banner-crumb {
     margin-top: 18px;
     font-size: 0.85rem;
   }
-  .page-banner-crumb a { color: var(--c-honey-light); }
+  .page-banner-crumb a { color: var(--c-forest); font-weight: 600; }
   .page-banner-crumb a:hover { text-decoration: underline; }
-  .page-banner-crumb span { color: var(--c-cream-ink); opacity: 0.6; padding: 0 6px; }
+  .page-banner-crumb span { color: var(--c-ink-soft); opacity: 0.6; padding: 0 6px; }
 
   /* Simple category filter pills at the top of the full catalog page. */
   .catalog-filters {
@@ -1381,3 +1395,122 @@
   border-radius: var(--radius-pill);
   padding: 7px 16px;
 }
+
+/* ============================================================
+   18. CONTACT PAGE
+   ============================================================ */
+.contact-section { padding: 80px 0 40px; }
+@media (max-width: 768px) { .contact-section { padding: 56px 0 24px; } }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  background: var(--c-line);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+@media (min-width: 640px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .contact-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+
+.contact-card {
+  background: var(--c-paper);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background .25s var(--ease);
+}
+.contact-card:hover { background: var(--c-cream-soft); }
+.contact-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--c-cream-soft);
+  display: flex; align-items: center; justify-content: center;
+}
+.contact-card-icon .icon { width: 20px; height: 20px; color: var(--c-forest); }
+.contact-card h3 {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c-moss);
+}
+.contact-card p {
+  font-size: 1.02rem;
+  font-weight: 500;
+  color: var(--c-ink);
+  line-height: 1.4;
+}
+.contact-card a.contact-card-link {
+  margin-top: auto;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--c-forest);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.contact-card a.contact-card-link .icon { width: 14px; height: 14px; }
+.contact-card a.contact-card-link:hover { text-decoration: underline; }
+
+.contact-extra {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+@media (min-width: 860px) { .contact-extra { grid-template-columns: 1.1fr 0.9fr; } }
+
+.contact-hours {
+  background: var(--c-paper);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+}
+.contact-hours h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  margin-bottom: 18px;
+}
+.contact-hours ul { display: flex; flex-direction: column; gap: 10px; }
+.contact-hours li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: var(--c-ink-soft);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--c-line);
+}
+.contact-hours li:last-child { border-bottom: none; padding-bottom: 0; }
+.contact-hours li span:first-child { color: var(--c-ink); font-weight: 500; }
+
+.contact-social-card {
+  background: var(--c-forest);
+  color: var(--c-cream-ink);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.contact-social-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--c-cream-ink);
+  margin-bottom: 8px;
+}
+.contact-social-card p { color: var(--c-cream-ink); opacity: 0.8; font-size: 0.95rem; margin-bottom: 20px; }
+.contact-social-card .social-links { display: flex; gap: 12px; }
+.contact-social-card .social-link {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(250,246,234,0.12);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-cream-ink);
+  transition: background .2s var(--ease);
+}
+.contact-social-card .social-link:hover { background: rgba(250,246,234,0.22); }
+.contact-social-card .social-link .icon { width: 18px; height: 18px; }
